@@ -1,3 +1,3 @@
-Messy Maze module for KTaNE
+Port Check module for KTaNE
 
 Made by Shotoff Cool
