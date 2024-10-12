@@ -45,8 +45,42 @@ public class portCheck : MonoBehaviour {
 	{
 		_moduleId = _moduleIdCounter++;
         SolutionGenerator();
-		
-	}
+
+		LogSolution();
+    }
+
+	void LogSolution()
+	{
+        string correctButtons = "";
+
+        if (Solution[0])
+        {
+            correctButtons += "DVI-D ";
+        }
+        if (Solution[1])
+        {
+            correctButtons += "Parallel ";
+        }
+        if (Solution[2])
+        {
+            correctButtons += "PS/2 ";
+        }
+        if (Solution[3])
+        {
+            correctButtons += "RJ-45 ";
+        }
+        if (Solution[4])
+        {
+            correctButtons += "Serial ";
+        }
+        if (Solution[5])
+        {
+            correctButtons += "Stereo RCA ";
+        }
+
+        Debug.LogFormat("[portCheck #{0}] Solution: " + correctButtons, _moduleId);
+    }
+
 
 	void ModuleStart()
 	{
@@ -121,8 +155,41 @@ public class portCheck : MonoBehaviour {
 		}
 		else
 		{
-			Debug.LogFormat("[Port Check #{0}] Incorrect Selection, Strike", _moduleId);
-			Module.HandleStrike();
+            string selectedButtons = "";
+
+            if (Ports[0])
+            {
+                selectedButtons += "DVI-D, ";
+            }
+            if (Ports[1])
+            {
+                selectedButtons += "Parallel, ";
+            }
+            if (Ports[2])
+            {
+                selectedButtons += "PS/2, ";
+            }
+            if (Ports[3])
+            {
+                selectedButtons += "RJ-45, ";
+            }
+            if (Ports[4])
+            {
+                selectedButtons += "Serial, ";
+            }
+            if (Ports[5])
+            {
+                selectedButtons += "Stereo RCA, ";
+            }
+            if (selectedButtons == "")
+            {
+                selectedButtons = "no ports, ";
+            }
+
+            Debug.LogFormat("[Port Check #{0}] You selected " + selectedButtons + "Strike", _moduleId);
+            Module.HandleStrike();
+
+			selectedButtons = "";
 		}
 	}
 
