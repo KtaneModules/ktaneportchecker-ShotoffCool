@@ -427,19 +427,47 @@ public class portCheck : MonoBehaviour {
 		}
     }
 
+	private readonly string TwitchHelpMessage = @"!{0} <button> [Presses the specified button] | Valid buttons are Parallel, Serial, Stereo RCA, RJ-45, DVI-D, PS/2, and Confirm | Presses can be chained with commas or semicolons";
+
 	KMSelectable[] ProcessTwitchCommand(string command)
 	{
-		command = command.ToLowerInvariant().Trim();
-
-		if (command.Equals("confirm"))
+		string[] cmdSplit = command.ToLowerInvariant().Split(new char[] { ';', ',' });
+		List<KMSelectable> btnsToPress = new List<KMSelectable>();
+		
+		for (int i = 0; i < cmdSplit.Length; i++)
 		{
-			return new[] { confirm };
+			if (cmdSplit[i].Trim() == "dvi-d")
+				btnsToPress.Add(Button[0]);
+			else if (cmdSplit[i].Trim() == "parallel")
+				btnsToPress.Add(Button[1]);
+			else if (cmdSplit[i].Trim() == "ps/2")
+				btnsToPress.Add(Button[2]);
+			else if (cmdSplit[i].Trim() == "rj-45")
+				btnsToPress.Add(Button[3]);
+			else if (cmdSplit[i].Trim() == "serial")
+				btnsToPress.Add(Button[4]);
+			else if (cmdSplit[i].Trim() == "stereo rca")
+				btnsToPress.Add(Button[5]);
+			else if (cmdSplit[i].Trim() == "confirm")
+				btnsToPress.Add(confirm);
 		}
 
-
-
-
+		if (btnsToPress.Count > 0)
+			return btnsToPress.ToArray();
 		return null; 
+	}
+
+	IEnumerator TwitchHandleForcedSolve()
+	{
+		for (int i = 0; i < Ports.Length; i++)
+		{
+			if (Ports[i] != Solution[i])
+			{
+				Button[i].OnInteract();
+				yield return new WaitForSeconds(.1f);
+			}
+		}
+		confirm.OnInteract();
 	}
 }
 
