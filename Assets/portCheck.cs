@@ -470,10 +470,12 @@ public class portCheck : MonoBehaviour {
 			if (DVIs == 0 && Paras == 0 && PS2s == 0 && RJs == 0 && Serials == 0 && RCAs == 1)
 			{
                 Solution[0] = true; Solution[1] = true; Solution[4] = true; Solution[5] = true;
+				return;
             }
 			if (DVIs == 0 && Paras == 0 && PS2s == 0 && RJs == 0 && Serials == 0 && RCAs >= 2)
 			{
                 Solution[0] = true; Solution[1] = true; Solution[3] = true;
+				return;
             }
 			else
 			{
